@@ -12,7 +12,7 @@ RUN git clone --branch v1.9.1 --depth 1 https://github.com/ggml-org/whisper.cpp.
 RUN cmake -B build -DCMAKE_BUILD_TYPE=Release -DWHISPER_BUILD_EXAMPLES=ON -DBUILD_SHARED_LIBS=OFF \
  && cmake --build build -j --config Release --target whisper-cli
 
-FROM alpine:3.22 AS model-downloader
+FROM alpine:3.24 AS model-downloader
 RUN apk add --no-cache curl
 WORKDIR /model
 RUN curl -fL --retry 3 -o ggml-small.bin \

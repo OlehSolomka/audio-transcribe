@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 
-FROM node:22.23.1-alpine3.24 AS deps
+FROM node:26.7.0-alpine3.24 AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
-FROM node:22.23.1-alpine3.24 AS whisper-builder
+FROM node:26.7.0-alpine3.24 AS whisper-builder
 RUN apk add --no-cache build-base cmake git
 WORKDIR /build
 RUN git clone --branch v1.9.1 --depth 1 https://github.com/ggml-org/whisper.cpp.git .
@@ -18,7 +18,7 @@ WORKDIR /model
 RUN curl -fL --retry 3 -o ggml-small.bin \
       https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin
 
-FROM node:22.23.1-alpine3.24 AS runtime
+FROM node:26.7.0-alpine3.24 AS runtime
 WORKDIR /app
 
 # node:22.14/22.15-alpine3.21 had 2 critical + ~38 high CVEs baked into its
